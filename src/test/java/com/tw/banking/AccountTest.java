@@ -18,4 +18,14 @@ class AccountTest {
 
     verify(spyTransactionRepository, times(1)).addDeposit(1);
   }
+
+  @Test
+  void should_invoke_addWithdraw_amount_1_when_call_withdraw_given_amount_1() {
+    TransactionRepository spyTransactionRepository = mock(TransactionRepository.class);
+    Account account = new Account(spyTransactionRepository, mock(Printer.class));
+
+    account.withdraw(1);
+
+    verify(spyTransactionRepository, times(1)).addWithdraw(1);
+  }
 }
