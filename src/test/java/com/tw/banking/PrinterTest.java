@@ -46,6 +46,22 @@ class PrinterTest {
     assertEquals("23/02/2018 | 1 | 2", result);
   }
 
+  @Test
+  void should_print_with_date_desc_when_call_print_given_date_casual_order() {
+    Console spyConsole = mock(Console.class);
+    Printer printer = new Printer(spyConsole);
+    Transaction transaction1 = new Transaction("23/02/2018", 0);
+    Transaction transaction2 = new Transaction("23/02/2019", 0);
+    Transaction transaction3 = new Transaction("23/02/2017", 0);
+    List<Transaction> givenTransactions = Arrays.asList(transaction1, transaction2, transaction3);
+
+    printer.print(givenTransactions);
+
+    verify(spyConsole, times(1)).printLine("23/02/2019 | 0 | 0");
+    verify(spyConsole, times(1)).printLine("23/02/2018 | 0 | 0");
+    verify(spyConsole, times(1)).printLine("23/02/2017 | 0 | 0");
+  }
+
   private void assertTransactionsEquals(List<Transaction> expectedTransactions, List<Transaction> givenTransactions) {
     for (int i = 0; i < expectedTransactions.size(); i++) {
       assertEquals(expectedTransactions.get(i), givenTransactions.get(i));
