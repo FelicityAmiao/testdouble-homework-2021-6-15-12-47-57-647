@@ -32,4 +32,17 @@ class TransactionRepositoryTest {
     assertEquals("16/06/2021", result.get(0).date());
     assertEquals(1, result.get(0).amount());
   }
+
+  @Test
+  void should_add_one_transaction_with_currentDate_and_minus_amount_when_call_addWithdraw_given_amount() {
+    Clock stubClock = mock(Clock.class);
+    TransactionRepository transactionRepository = new TransactionRepository(stubClock);
+    when(stubClock.todayAsString()).thenReturn("16/06/2021");
+
+    transactionRepository.addWithdraw(1);
+
+    List<Transaction> result = transactionRepository.allTransactions();
+    assertEquals("16/06/2021", result.get(0).date());
+    assertEquals(-1, result.get(0).amount());
+  }
 }
