@@ -62,6 +62,22 @@ class PrinterTest {
     verify(spyConsole, times(1)).printLine("23/02/2017 | 0 | 0");
   }
 
+  @Test
+  void should_print_accumulate_balance_along_with_date_later_when_call_print_given_date_casual_order() {
+    Console spyConsole = mock(Console.class);
+    Printer printer = new Printer(spyConsole);
+    Transaction transaction1 = new Transaction("23/02/2018", 1);
+    Transaction transaction2 = new Transaction("23/02/2019", 5);
+    Transaction transaction3 = new Transaction("23/02/2017", 2);
+    List<Transaction> givenTransactions = Arrays.asList(transaction1, transaction2, transaction3);
+
+    printer.print(givenTransactions);
+
+    verify(spyConsole, times(1)).printLine("23/02/2019 | 5 | 8");
+    verify(spyConsole, times(1)).printLine("23/02/2018 | 1 | 3");
+    verify(spyConsole, times(1)).printLine("23/02/2017 | 2 | 2");
+  }
+
   private void assertTransactionsEquals(List<Transaction> expectedTransactions, List<Transaction> givenTransactions) {
     for (int i = 0; i < expectedTransactions.size(); i++) {
       assertEquals(expectedTransactions.get(i), givenTransactions.get(i));
