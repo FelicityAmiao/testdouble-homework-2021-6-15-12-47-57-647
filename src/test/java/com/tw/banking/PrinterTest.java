@@ -36,6 +36,16 @@ class PrinterTest {
     assertTransactionsEquals(expectedTransactions, givenTransactions);
   }
 
+  @Test
+  void should_print_with_separator_between_when_call_statementLine_given_date_amount_balance() {
+    Console dummyConsole = mock(Console.class);
+    Printer printer = new Printer(dummyConsole);
+
+    String result = printer.statementLine(new Transaction("23/02/2018", 1), 2);
+
+    assertEquals("23/02/2018 | 1 | 2", result);
+  }
+
   private void assertTransactionsEquals(List<Transaction> expectedTransactions, List<Transaction> givenTransactions) {
     for (int i = 0; i < expectedTransactions.size(); i++) {
       assertEquals(expectedTransactions.get(i), givenTransactions.get(i));
